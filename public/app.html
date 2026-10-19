@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SplitBill — Aplikasi</title>
+<meta name="theme-color" content="#b85c38">
+<link rel="stylesheet" href="/css/app.css">
+<script src="/js/theme-init.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">S</span>SplitBill</a>
+    <nav class="nav" id="nav" aria-label="Menu utama">
+      <a href="#/scan" data-route="scan,review,assign,summary,pay,share,manual">Scan Struk</a>
+      <a href="#/riwayat" data-route="riwayat">Riwayat</a>
+      <a href="/#cara-pakai">Cara Pakai</a>
+      <a href="#/support" data-route="support">Support</a>
+    </nav>
+    <div class="row">
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Ganti mode terang atau gelap"></button>
+      <button class="icon-btn menu-toggle" id="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    </div>
+  </div>
+</header>
+<main><div class="container page" id="view" aria-live="polite"></div></main>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>

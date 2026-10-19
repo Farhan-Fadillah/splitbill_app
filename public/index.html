@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SplitBill — Split bill tanpa ribet</title>
+<meta name="description" content="Unggah foto struk, atur siapa makan apa, lalu bagikan tagihan ke WhatsApp. Tanpa akun, tanpa unduh aplikasi.">
+<meta name="theme-color" content="#b85c38">
+<link rel="stylesheet" href="/css/app.css">
+<script src="/js/theme-init.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">S</span>SplitBill</a>
+    <nav class="nav" id="nav" aria-label="Menu utama">
+      <a href="/app#/scan">Scan Struk</a>
+      <a href="/app#/riwayat">Riwayat</a>
+      <a href="#cara-pakai">Cara Pakai</a>
+      <a href="/app#/support">Support</a>
+    </nav>
+    <div class="row">
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Ganti mode terang atau gelap"></button>
+      <button class="icon-btn menu-toggle" id="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="status-strip">
+    <div class="container row-between">
+      <span class="row"><span class="dot" aria-hidden="true"></span>Pembacaan struk otomatis aktif</span>
+      <span class="hide-sm num">PB1 / PPN terdeteksi otomatis &nbsp;•&nbsp; Tanpa registrasi akun</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="pill" style="align-self:flex-start"><span>Utilitas finansial sosial</span><span>/</span><span style="color:var(--primary)">Presisi nol drama</span></div>
+        <div class="stack-sm">
+          <h1 class="t-lg">Split bill tanpa ribet</h1>
+          <p class="t-body-lg muted" style="max-width:36rem">Bagi tagihan makan bersama teman atau keluarga dalam hitungan detik. Cukup unggah foto struk, kami hitungkan hingga rincian pajak, service, dan tip.</p>
+        </div>
+        <div class="row wrap" style="gap:var(--sp-md)">
+          <a class="btn btn-primary" href="/app#/scan">Mulai Scan Struk</a>
+          <a class="btn btn-secondary" href="/app#/manual">Input Manual</a>
+        </div>
+        <div class="metrics">
+          <div><div class="t-sm num">± 5 detik</div><div class="t-label-sm muted">Baca struk</div></div>
+          <div><div class="t-sm num">Rp 0</div><div class="t-label-sm muted">Biaya layanan</div></div>
+          <div><div class="t-sm">Bisa dikoreksi</div><div class="t-label-sm muted">Setiap angka</div></div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="card stack" style="width:100%;max-width:30rem" aria-label="Contoh hasil split bill">
+          <div class="panel row-between" style="align-items:flex-start">
+            <div><div class="t-label-lg">Kedai Kopi &amp; Resto Sentosa</div><div class="t-body-sm muted">Meja 14 • 12 Okt 2024, 19:42 WIB</div></div>
+            <span class="badge badge-neutral">Contoh</span>
+          </div>
+          <div class="stack-sm t-body-sm">
+            <div class="row-between"><span class="muted">1x Nasi Goreng Kampung</span><span class="num strong">Rp 48.000</span></div>
+            <div class="row-between"><span class="muted">2x Wagyu Sirloin 200g</span><span class="num strong">Rp 260.000</span></div>
+            <div class="row-between"><span class="muted">1x Caesar Salad Crisp</span><span class="num strong">Rp 42.000</span></div>
+            <div class="row-between"><span class="muted">4x Iced Lemon Tea Pitcher</span><span class="num strong">Rp 58.000</span></div>
+            <div class="panel stack-sm" style="background:var(--s)">
+              <div class="row-between muted"><span>Subtotal Pesanan</span><span class="num">Rp 408.000</span></div>
+              <div class="row-between muted"><span>PB1 Restoran (10%)</span><span class="num">Rp 40.800</span></div>
+              <div class="row-between muted"><span>Service Charge (8%)</span><span class="num">Rp 32.640</span></div>
+              <div class="row-between muted"><span>Pembulatan Sistem</span><span class="num">Rp 560</span></div>
+              <div class="row-between t-label-lg"><span>Total Struk Tagihan</span><span class="num strong" style="color:var(--primary)">Rp 482.000</span></div>
+            </div>
+          </div>
+          <div class="stack-sm">
+            <div class="row-between t-label-md muted"><span>Rincian 4 Anggota</span><span class="num">Total Terbagi 100%</span></div>
+            <div class="panel row-between"><div class="row"><span class="avatar">AD</span><div><div class="t-label-md">Andi Darmawan</div><div class="t-body-sm muted">Sirloin + Tea</div></div></div><div class="right"><div class="t-label-md num strong">Rp 168.000</div><span class="badge badge-ok">Lunas</span></div></div>
+            <div class="panel row-between"><div class="row"><span class="avatar">BR</span><div><div class="t-label-md">Bima Raditya</div><div class="t-body-sm muted">Sirloin + Tea</div></div></div><div class="right"><div class="t-label-md num strong">Rp 168.000</div><span class="badge badge-warn">Belum Lunas</span></div></div>
+            <div class="panel row-between"><div class="row"><span class="avatar">CL</span><div><div class="t-label-md">Clara Lovina</div><div class="t-body-sm muted">Nasi Goreng + Tea</div></div></div><div class="right"><div class="t-label-md num strong">Rp 76.000</div><span class="badge badge-ok">Lunas</span></div></div>
+            <div class="panel row-between"><div class="row"><span class="avatar">DN</span><div><div class="t-label-md">Dina Novita</div><div class="t-body-sm muted">Salad + Tea</div></div></div><div class="right"><div class="t-label-md num strong">Rp 70.000</div><span class="badge badge-warn">Belum Lunas</span></div></div>
+          </div>
+          <div class="panel-high row-between t-body-sm muted"><span>Terkumpul: <strong class="num" style="color:var(--secondary)">Rp 244.000</strong></span><span>Sisa: <strong class="num" style="color:var(--primary)">Rp 238.000</strong></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+  <section class="section band-low" id="fitur">
+    <div class="container stack-lg">
+      <div class="row-between wrap" style="align-items:flex-end">
+        <div><span class="t-label-sm eyebrow">Spesifikasi kapabilitas</span><h2 class="t-lg" style="margin-top:.25rem">Dirancang untuk kalkulasi adil &amp; cepat</h2></div>
+        <p class="muted" style="max-width:28rem">Semua pembagian dihitung proporsional berbasis pesanan riil tiap orang, tanpa kalkulasi manual yang membingungkan.</p>
+      </div>
+      <div class="grid-2">
+        <div class="feature"><div class="stack-sm"><div class="row-between"><span class="t-md">01. Deteksi Otomatis</span><span class="badge badge-neutral">Multi Bahasa</span></div><p class="muted">OCR cerdas membaca nama item, kuantitas, dan harga dari struk restoran, minimarket, hingga screenshot aplikasi pesan-antar.</p></div><div class="t-label-sm muted">Format didukung: JPG, PNG, WebP, HEIC, PDF</div></div>
+        <div class="feature"><div class="stack-sm"><span class="t-md">02. Atur Pembagian</span><p class="muted">Tentukan siapa yang memesan apa, bagi rata porsi bersama, atau pakai porsi dan persentase untuk pesanan khusus.</p></div><div class="t-label-sm muted">Mendukung pesanan sharing multi-anggota</div></div>
+        <div class="feature"><div class="stack-sm"><span class="t-md">03. Kalkulasi Otomatis</span><p class="muted">Pajak PB1/PPN, service charge, ongkir, diskon voucher, dan pembulatan dibagi proporsional atau rata, sesuai pilihanmu.</p></div><div class="t-label-sm muted">Pembulatan opsional: Rp100, Rp500, atau Rp1.000</div></div>
+        <div class="feature"><div class="stack-sm"><span class="t-md">04. Share ke WhatsApp</span><p class="muted">Kirim tautan rincian tagihan ke grup atau personal. Teman membuka tautan tanpa login dan melihat bagiannya sendiri.</p></div><div class="t-label-sm muted">Berisi rekening, e-wallet, dan QRIS penagih</div></div>
+        <div class="feature"><div class="stack-sm"><span class="t-md">05. Tandai Pembayaran</span><p class="muted">Pantau siapa yang sudah transfer. Teman bisa menandai sudah bayar, kamu yang mengonfirmasi, lalu kirim pengingat ke yang belum.</p></div><div class="t-label-sm muted">Satu ketukan ubah status Lunas / Belum Lunas</div></div>
+        <div class="feature"><div class="stack-sm"><span class="t-md">06. Riwayat Tersimpan</span><p class="muted">Buka lagi tagihan sebelumnya kapan saja tanpa login. Riwayat terhubung ke tautan pribadi yang tersimpan di perangkat ini.</p></div><div class="t-label-sm muted">Tagihan disimpan 90 hari sejak terakhir dibuka</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+  <section class="section" id="cara-pakai">
+    <div class="container stack-lg">
+      <div style="max-width:40rem"><span class="t-label-sm eyebrow">Alur sederhana</span><h2 class="t-lg" style="margin-top:.25rem">Cara Pakai</h2><p class="muted" style="margin-top:.25rem">Empat langkah menyelesaikan pembagian tagihan meja kamu, biasanya kurang dari satu menit.</p></div>
+      <ol class="grid-4" style="list-style:none;margin:0;padding:0">
+        <li class="step-card"><div><div class="t-md num" style="color:var(--primary)">1. Upload Struk</div><p class="muted" style="margin-top:.25rem">Foto struk fisik atau screenshot e-receipt.</p></div></li>
+        <li class="step-card"><div><div class="t-md num" style="color:var(--primary)">2. Cek &amp; Atur Pembagian</div><p class="muted" style="margin-top:.25rem">Koreksi hasil scan bila perlu, lalu pilih siapa yang menikmati tiap menu.</p></div></li>
+        <li class="step-card"><div><div class="t-md num" style="color:var(--primary)">3. Share</div><p class="muted" style="margin-top:.25rem">Bagikan tautan ke teman atau grup WhatsApp.</p></div></li>
+        <li class="step-card"><div><div class="t-md num" style="color:var(--primary)">4. Tandai Pembayaran</div><p class="muted" style="margin-top:.25rem">Pantau pelunasan secara transparan.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+  <section class="section band-low" id="simulasi">
+    <div class="container stack-lg">
+      <div class="row-between wrap">
+        <div><span class="t-label-sm eyebrow">Simulasi antarmuka</span><h2 class="t-lg" style="margin-top:.25rem">Pratinjau Mobile &amp; Tampilan</h2><p class="muted" style="margin-top:.25rem">Begini tagihan muncul di ponsel temanmu saat membuka tautan pembagian.</p></div>
+        <div class="seg" role="group" aria-label="Pilih pratinjau">
+          <button type="button" id="btn-view-mobile" aria-pressed="true">Mobile View</button>
+          <button type="button" id="btn-view-slip" aria-pressed="false">WhatsApp Slip</button>
+          <button type="button" id="btn-toggle-demo-dark" aria-pressed="false">Mode Demo: <span id="demo-mode-label">Light</span></button>
+        </div>
+      </div>
+      <div class="band-stage" style="display:flex;justify-content:center;padding:var(--sp-lg) var(--sp-md);background:var(--surface);border-radius:var(--r-xl)">
+        <div class="phone" id="sim-frame">
+          <div class="row-between t-label-sm muted" style="margin-bottom:var(--sp-sm)"><span class="num strong">09:41</span><span class="num">5G &nbsp;100%</span></div>
+          <div class="stack" id="preview-content-mobile">
+            <div class="panel row-between"><div class="t-sm">Tagihan Makan Siang</div><span class="badge badge-ok">2/4 Lunas</span></div>
+            <div class="panel stack-sm"><div class="t-label-sm muted">TOTAL DIBAYAR</div><div class="t-lg num" style="font-weight:700">Rp 482.000</div><div class="t-body-sm muted">Termasuk Service 8% &amp; PB1 10%</div></div>
+            <div class="stack-sm"><div class="t-label-md">Bagian Anda</div>
+              <div class="panel-high row-between" style="padding:var(--sp-sm)"><div><div class="t-label-md">Andi (Anda)</div><div class="t-body-sm muted">1 Wagyu + 1 Tea</div></div><div class="right"><div class="t-label-md num strong">Rp 168.000</div><span class="t-label-sm" id="demo-paid" style="color:var(--secondary)">Sudah Bayar ✓</span></div></div></div>
+            <div class="stack-sm"><div class="t-label-md">Transfer ke Penagih</div>
+              <div class="panel stack-sm t-body-sm"><div class="row-between"><span class="muted">Bank:</span><span class="strong">BCA</span></div><div class="row-between"><span class="muted">No. Rekening:</span><span class="mono num strong">8831 0921 44</span></div><div class="row-between"><span class="muted">Atas Nama:</span><span class="strong">Bambang Wicaksono</span></div></div></div>
+            <button class="btn btn-primary btn-block" type="button" id="demo-pay-btn">Tandai Sudah Bayar</button>
+          </div>
+          <div class="stack" id="preview-content-slip" hidden>
+            <div class="panel mono t-body-sm stack-sm" id="slip-text">
+              <div class="strong" style="text-align:center">=== RINCIAN SPLITBILL ===<br>Kedai Kopi &amp; Resto Sentosa</div>
+              <div class="muted">Total Tagihan: Rp 482.000<br>(sudah termasuk PB1 &amp; Service Charge)</div>
+              <div>-----------------------------</div>
+              <div>1. Andi: Rp 168.000 [LUNAS]<br>2. Bima: Rp 168.000 [BELUM]<br>3. Clara: Rp 76.000 [LUNAS]<br>4. Dina: Rp 70.000 [BELUM]</div>
+              <div>-----------------------------</div>
+              <div>Transfer ke:<br>BCA 8831092144 a.n. Bambang<br>Cek bagianmu: splitbill.id/s/contoh</div>
+            </div>
+            <button class="btn btn-whatsapp btn-block" type="button" id="demo-copy-btn">Salin Teks untuk WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container narrow stack-lg">
+      <div><span class="t-label-sm eyebrow">Pertanyaan umum</span><h2 class="t-lg" style="margin-top:.25rem">FAQ</h2></div>
+      <div class="stack-sm">
+        <details class="card-flat"><summary class="t-label-lg" style="cursor:pointer;min-height:2.75rem;display:flex;align-items:center">Seberapa akurat pembacaan struknya?</summary><p class="muted" style="margin-top:.5rem">Akurasi bergantung pada kualitas foto. Setiap hasil dicek otomatis (jumlah item harus cocok dengan subtotal dan total), dan angka yang meragukan ditandai “Cek ulang”. Kamu selalu bisa mengoreksi nama, jumlah, dan harga sebelum membagi.</p></details>
+        <details class="card-flat"><summary class="t-label-lg" style="cursor:pointer;min-height:2.75rem;display:flex;align-items:center">Apakah foto struk saya disimpan?</summary><p class="muted" style="margin-top:.5rem">Tidak. Foto hanya diproses untuk dibaca lalu dibuang dari server. Yang disimpan hanyalah data hasil bacaan (item, harga, pembagian) supaya tautan bisa dibuka temanmu.</p></details>
+        <details class="card-flat"><summary class="t-label-lg" style="cursor:pointer;min-height:2.75rem;display:flex;align-items:center">Perlu daftar akun?</summary><p class="muted" style="margin-top:.5rem">Tidak. Riwayat tersimpan lewat tautan pribadi di perangkat ini. Simpan atau salin tautan status pembayaran jika ingin membukanya dari perangkat lain.</p></details>
+        <details class="card-flat"><summary class="t-label-lg" style="cursor:pointer;min-height:2.75rem;display:flex;align-items:center">Berapa lama tagihan tersimpan?</summary><p class="muted" style="margin-top:.5rem">90 hari sejak terakhir dibuka. Setelah itu otomatis dihapus.</p></details>
+        <details class="card-flat"><summary class="t-label-lg" style="cursor:pointer;min-height:2.75rem;display:flex;align-items:center">Bagaimana jika struk dalam mata uang asing atau sangat panjang?</summary><p class="muted" style="margin-top:.5rem">Struk dalam mata uang asing dikonversi dengan kurs yang kamu isi sendiri. Struk yang sangat panjang dibaca per bagian lalu digabung otomatis.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-container">
+    <div class="container narrow stack" style="text-align:center;align-items:center">
+      <h2 class="t-lg">Siap berhitung tanpa salah paham?</h2>
+      <p class="t-body-lg muted" style="max-width:36rem">Pakai langsung di browser ponsel. Tanpa unduh aplikasi, tanpa daftar akun, dan gratis.</p>
+      <div class="row wrap" style="justify-content:center;gap:var(--sp-md)">
+        <a class="btn btn-primary" href="/app#/scan">Mulai Scan Struk Sekarang</a>
+        <a class="btn btn-secondary" href="#cara-pakai">Lihat Cara Pakai</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="stack-sm"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">S</span>SplitBill</a><p class="t-body-sm" style="max-width:20rem">Bagi tagihan dari foto struk. Cepat, adil, dan tanpa akun.</p></div>
+    <div><div class="t-label-md strong" style="color:var(--on)">Fitur</div><ul class="t-body-sm"><li><a href="#fitur">Deteksi Otomatis</a></li><li><a href="#fitur">Atur Pembagian</a></li><li><a href="#fitur">Kalkulasi Otomatis</a></li><li><a href="#fitur">Tandai Pembayaran</a></li></ul></div>
+    <div><div class="t-label-md strong" style="color:var(--on)">Tautan</div><ul class="t-body-sm"><li><a href="#cara-pakai">Cara Pakai</a></li><li><a href="#faq">FAQ</a></li><li><a href="/app#/riwayat">Riwayat</a></li><li><a href="/app#/scan">Coba Sekarang</a></li></ul></div>
+    <div><div class="t-label-md strong" style="color:var(--on)">Support</div><ul class="t-body-sm"><li><a href="/app#/support">Lapor bug</a></li><li><a href="/app#/support">Request fitur</a></li><li><a href="/app#/support">Kasih feedback</a></li><li><a href="/app#/support">Nih buat jajan</a></li></ul></div>
+  </div>
+</footer>
+<script type="module" src="/js/landing.js"></script>
+</body>
+</html>
