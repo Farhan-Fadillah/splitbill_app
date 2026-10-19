@@ -43,7 +43,12 @@ scanRouter.post('/scan',
       if (data.reconciled) { try { await store.setCache(key, JSON.stringify(data)); } catch { /* cache opsional */ } }
       res.json({ ok: true, cached: false, data });
     } catch (e) {
-      if (e instanceof ScanError) return next(new AppError(STATUS[e.code] || 500, e.code, e.message, { details: e.details }));
+      if (e instanceof ScanError) {
+        // Log lengkap (tanpa key) muncul di Vercel Logs. Ke klien hanya kode + pesan singkat, tanpa isi balasan upstream.
+        if (e.details?.length) console.error('[scan] gagal:', e.code, JSON.stringify(e.details));
+        const details = (e.details || []).map(({ engine, code, message }) => ({ engine, code, message }));
+        return next(new AppError(STATUS[e.code] || 500, e.code, e.message, { details }));
+      }
       if (e?.message && /Input buffer|unsupported image|heif|VipsJpeg|corrupt/i.test(e.message)) {
         return next(bad('bad_image', 'Foto tidak bisa dibuka. Jika dari iPhone (HEIC), coba ambil screenshot atau simpan sebagai JPG.'));
       }

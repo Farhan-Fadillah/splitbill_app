@@ -135,3 +135,15 @@ test('struk panjang: tile digabung, duplikat overlap dibuang', async () => {
   assert.equal(out.total, 6000);
   assert.equal(out.reconciled, true);
 });
+
+test('all_failed: details menyertakan engine, kode, dan pesan agar penyebabnya terlihat', async () => {
+  const fail = (status) => async () => { throw Object.assign(new Error(`HTTP ${status}`), { status, body: 'model not found' }); };
+  await assert.rejects(run(deps({ callClaude: fail(404), callMistralOcr: fail(500) })), (e) => {
+    assert.equal(e.code, 'all_failed');
+    const c = e.details.find((d) => d.engine === 'claude');
+    assert.equal(c.code, 'http_404');
+    assert.equal(c.message, 'HTTP 404');
+    assert.match(c.body, /model not found/); // body hanya untuk log server, dibuang sebelum dikirim ke klien
+    return true;
+  });
+});

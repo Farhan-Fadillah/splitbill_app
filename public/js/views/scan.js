@@ -5,6 +5,24 @@ import { addReceipt, receiptFromScan, manualReceipt, photos, state } from '../st
 import { stepper, pageHead, banner } from './common.js';
 
 export const title = 'Scan Struk';
+
+const ENGINE_NAME = { claude: 'Claude', mistral: 'Mistral', enhanced: 'Claude (ulang)' };
+/** Terjemahkan kode kegagalan OCR menjadi penjelasan yang bisa ditindaklanjuti. */
+export function explainFailure(code, engine = 'claude') {
+  const m = engine === 'mistral';
+  if (/^http_(401|403)$/.test(code)) return 'API key ditolak';
+  if (code === 'http_404') return m ? 'endpoint atau model Mistral tidak ditemukan (periksa MISTRAL_OCR_MODEL dan MISTRAL_CHAT_MODEL)' : 'endpoint atau model tidak ditemukan (periksa SUMOPOD_API_STYLE, SUMOPOD_BASE_URL, dan CLAUDE_MODEL)';
+  if (code === 'http_400') return m ? 'permintaan ditolak Mistral (nama model atau format tidak cocok)' : 'permintaan ditolak gateway (format atau nama model tidak cocok)';
+  if (code === 'http_413') return 'file terlalu besar untuk gateway';
+  if (code === 'http_429') return 'kuota habis atau kena rate limit';
+  if (/^http_5\d\d$/.test(code)) return 'gateway sedang bermasalah';
+  if (code === 'timeout') return 'gateway terlalu lama membalas';
+  if (code === 'network') return 'gateway tidak terjangkau dari server';
+  if (code === 'invalid_json') return 'balasan model bukan JSON yang valid';
+  if (code === 'schema') return 'format balasan model tidak sesuai';
+  if (code === 'unreadable') return 'model menyatakan struk tidak terbaca';
+  return code;
+}
 const MAX_ORIGINAL = 10 * 1024 * 1024; // batas file asli (foto akan dikompres browser)
 const OK_EXT = /\.(jpe?g|png|webp|heic|heif|pdf)$/i;
 
@@ -100,6 +118,10 @@ export function render(root, { go }) {
     const errBox = error ? banner('err', h('div', { class: 'stack-sm' },
       h('strong', null, error.code === 'not_a_receipt' ? 'Foto ini sepertinya bukan struk' : 'Struk belum bisa dibaca'),
       h('span', null, error.message),
+      error.details?.length ? h('details', null,
+        h('summary', { class: 'link', style: 'min-height:2rem' }, 'Detail teknis'),
+        h('ul', { class: 't-body-sm', style: 'margin:.25rem 0 0 1.1rem;padding:0' }, error.details.map((d) => h('li', null, `${ENGINE_NAME[d.engine] || d.engine}: ${explainFailure(d.code, d.engine)} [${d.code}]`))),
+        h('p', { class: 't-body-sm', style: 'margin-top:.25rem' }, 'Pemilik situs: buka halaman /qa, lalu jalankan "Tes Claude" dan "Tes Mistral OCR" untuk melihat pesan lengkap.')) : null,
       prepared ? h('div', { class: 'row wrap' },
         error.code !== 'not_a_receipt' && error.code !== 'bad_type' ? h('button', { type: 'button', class: 'btn btn-secondary btn-sm', onClick: startScan }, 'Coba Lagi') : null,
         h('button', { type: 'button', class: 'btn btn-secondary btn-sm', onClick: clear }, 'Ganti Foto'),

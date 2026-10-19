@@ -43,7 +43,7 @@ async function claudeAttempt(deps, image, userText, signal) {
     const text = await deps.callClaude({ image, userText, signal, config: deps.config });
     return parseAttempt('claude', text);
   } catch (e) {
-    return { engine: 'claude', error: { code: errCode(e), message: e.message } };
+    return { engine: 'claude', error: { code: errCode(e), message: e.message, body: e.body } };
   }
 }
 
@@ -54,7 +54,7 @@ async function mistralAttempt(deps, image, signal) {
     const text = await deps.callMistralStructure({ userText: mistralStructureMessage(rawText), signal, config: deps.config });
     return { ...parseAttempt('mistral', text), rawText };
   } catch (e) {
-    return { engine: 'mistral', rawText, error: { code: errCode(e), message: e.message } };
+    return { engine: 'mistral', rawText, error: { code: errCode(e), message: e.message, body: e.body } };
   }
 }
 
@@ -135,7 +135,7 @@ export async function extractOne({ variants, userText, partial = false }, deps =
   if (winner) return { ...winner, bestEffort, attempts: summarize(attempts) };
 
   const all = Object.entries(attempts).filter(([, a]) => a?.error);
-  const details = all.map(([k, a]) => ({ engine: k, code: a.error.code }));
+  const details = all.map(([k, a]) => ({ engine: k, code: a.error.code, message: String(a.error.message || '').slice(0, 160), body: a.error.body ? String(a.error.body).slice(0, 300) : undefined }));
   const verdicts = all.map(([, a]) => a.error.code).filter((c) => c === 'not_a_receipt' || c === 'unreadable');
   if (verdicts.length && verdicts.every((c) => c === 'not_a_receipt')) {
     throw new ScanError('not_a_receipt', 'Foto ini sepertinya bukan struk', details);
