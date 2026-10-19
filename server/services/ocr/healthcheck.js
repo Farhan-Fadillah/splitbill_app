@@ -2,6 +2,7 @@ import sharp from 'sharp';
 import { cfg } from '../../config.js';
 import { callClaude } from './claude.js';
 import { callMistralOcr } from './mistral.js';
+import { getJson } from './http.js';
 
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="360" height="120"><rect width="360" height="120" fill="#fff"/><text x="20" y="70" font-size="34" font-family="DejaVu Sans Mono, monospace" fill="#000">TOTAL 25.000</text></svg>';
 const hintFor = (e) => (e.status === 401 || e.status === 403 ? 'Key ditolak. Periksa nilai key di environment variables.'
@@ -26,4 +27,14 @@ export const pingMistral = () => run(async () => {
   const png = await sharp(Buffer.from(svg)).png().toBuffer();
   const md = await callMistralOcr({ image: png, mime: 'image/png' });
   return /25/.test(md) ? 'Teks "25.000" terbaca' : `Terhubung, balasan: ${md.slice(0, 40)}`;
+});
+
+/** Daftar model yang disediakan gateway (GET /v1/models), untuk memastikan nilai CLAUDE_MODEL yang benar. */
+export const listModels = () => run(async () => {
+  if (!cfg.sumopod.key) throw Object.assign(new Error('SUMOPOD_API_KEY belum diisi'), { status: 401 });
+  const base = cfg.sumopod.baseUrl;
+  const url = /\/v1$/.test(base) ? `${base}/models` : `${base}/v1/models`;
+  const j = await getJson(url, { authorization: `Bearer ${cfg.sumopod.key}`, 'x-api-key': cfg.sumopod.key, 'anthropic-version': '2023-06-01' });
+  const list = (j.data || j.models || []).map((m) => (typeof m === 'string' ? m : m.id || m.name)).filter(Boolean);
+  return { count: list.length, models: list.slice(0, 80), current: cfg.sumopod.model, currentExists: list.includes(cfg.sumopod.model) };
 });

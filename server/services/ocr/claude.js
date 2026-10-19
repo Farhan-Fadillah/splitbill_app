@@ -22,13 +22,13 @@ function extractText(style, json) {
 }
 
 /**
- * Panggil Claude lewat gateway Sumopod. Mendukung dua format (SUMOPOD_API_STYLE):
+ * Satu panggilan ke gateway dengan format tertentu. Mendukung dua format:
  *  - anthropic: POST /v1/messages
  *  - openai:    POST /v1/chat/completions
  * `image` = Buffer JPEG/PNG. Mengembalikan teks balasan model.
  */
-export async function callClaude({ image, mime = 'image/jpeg', userText, signal, config = cfg }) {
-  const { key, baseUrl, style, model } = config.sumopod;
+async function callWithStyle({ image, mime = 'image/jpeg', userText, signal, config = cfg }, style) {
+  const { key, baseUrl, model } = config.sumopod;
   if (!key) throw new HttpError('SUMOPOD_API_KEY belum diisi', { status: 401 });
   const b64 = image.toString('base64');
 
@@ -73,4 +73,31 @@ export async function callClaude({ image, mime = 'image/jpeg', userText, signal,
   const text = extractText(style, json);
   if (!text) throw new HttpError('Balasan model kosong', { status: 200 });
   return text;
+}
+
+export const otherStyle = (s) => (s === 'openai' ? 'anthropic' : 'openai');
+const learned = new Map(); // baseUrl -> format yang terbukti berhasil
+
+/**
+ * Panggil Claude lewat gateway Sumopod memakai format SUMOPOD_API_STYLE. Jika gateway membalas 404/405
+ * (endpoint tidak ada, berarti format salah), otomatis dicoba format satunya dan hasilnya diingat.
+ * Jika keduanya gagal, error dari format yang dikonfigurasi yang dilempar.
+ */
+export async function callClaude(args) {
+  const config = args.config || cfg;
+  const first = learned.get(config.sumopod.baseUrl) || config.sumopod.style;
+  try {
+    return await callWithStyle(args, first);
+  } catch (e) {
+    if (!(e instanceof HttpError) || ![404, 405].includes(e.status)) throw e;
+    const second = otherStyle(first);
+    try {
+      const text = await callWithStyle(args, second);
+      learned.set(config.sumopod.baseUrl, second);
+      console.warn(`[claude] format gateway "${first}" ditolak (HTTP ${e.status}); format "${second}" berhasil. Atur SUMOPOD_API_STYLE=${second} agar lebih cepat.`);
+      return text;
+    } catch {
+      throw e;
+    }
+  }
 }

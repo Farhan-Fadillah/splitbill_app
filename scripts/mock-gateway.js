@@ -25,6 +25,8 @@ http.createServer(async (req, res) => {
 
   if (req.url === '/_log') return send(res, 200, log);
 
+  if (req.url === '/v1/models' && req.method === 'GET') return send(res, 200, { data: [{ id: 'claude-haiku-4-5' }, { id: 'claude-sonnet-5' }, { id: 'gpt-5' }] });
+
   if (req.url === '/v1/messages') {
     const img = body.messages?.[0]?.content?.find((b) => b.type === 'image');
     const okShape = req.headers['x-api-key'] && body.system?.[0]?.text?.includes('receipt') && img?.source?.type === 'base64' && Buffer.from(img.source.data, 'base64')[0] === 0xff;

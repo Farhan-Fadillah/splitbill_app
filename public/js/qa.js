@@ -101,6 +101,14 @@ function systemTab() {
       if (!res.ok) put(pingOut, h('div', { class: 'banner banner-err' }, body?.error?.message || `HTTP ${res.status}`));
       else {
         const r = body.result;
+        if (target === 'models') {
+          const d = r.detail;
+          put(pingOut, h('div', { class: `banner ${r.ok ? (d.currentExists ? 'banner-ok' : 'banner-warn') : 'banner-err'}` },
+            h('strong', null, r.ok ? `${d.count} model tersedia (${r.ms} ms)` : `Gagal mengambil daftar model (${r.ms} ms)`),
+            r.ok ? h('div', null, d.currentExists ? `CLAUDE_MODEL "${d.current}" ADA di daftar.` : `CLAUDE_MODEL "${d.current}" TIDAK ADA di daftar. Ganti dengan salah satu nama di bawah.`) : h('div', null, [r.error, r.status ? `HTTP ${r.status}` : '', r.hint].filter(Boolean).join(' · ')),
+            r.ok ? h('pre', { class: 'json' }, d.models.join('\n')) : null));
+          btn.disabled = false; return;
+        }
         put(pingOut, h('div', { class: `banner ${r.ok ? 'banner-ok' : 'banner-err'}` }, h('strong', null, `${target}: ${r.ok ? 'terhubung' : 'gagal'} (${r.ms} ms)`), h('div', null, r.ok ? r.detail : [r.error, r.status ? `HTTP ${r.status}` : '', r.hint].filter(Boolean).join(' · ')), r.body ? h('pre', { class: 'json' }, r.body) : null));
         qa.auto[`ping_${target}`] = { at: Date.now(), ok: r.ok, ms: r.ms, detail: r.ok ? r.detail : r.error }; persist();
       }
@@ -116,7 +124,8 @@ function systemTab() {
       h('div', { class: 'field' }, h('label', null, 'Token QA (sama dengan environment variable QA_TOKEN)'), tokenIn),
       h('div', { class: 'row wrap' }, runBtn,
         h('button', { type: 'button', class: 'btn btn-secondary', onClick: (e) => ping('claude', e.currentTarget) }, 'Tes Claude (Sumopod)'),
-        h('button', { type: 'button', class: 'btn btn-secondary', onClick: (e) => ping('mistral', e.currentTarget) }, 'Tes Mistral OCR')),
+        h('button', { type: 'button', class: 'btn btn-secondary', onClick: (e) => ping('mistral', e.currentTarget) }, 'Tes Mistral OCR'),
+        h('button', { type: 'button', class: 'btn btn-secondary', onClick: (e) => ping('models', e.currentTarget) }, 'Lihat Daftar Model')),
       pingOut),
     out);
 }

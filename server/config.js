@@ -18,7 +18,7 @@ export const cfg = {
     key: process.env.SUMOPOD_API_KEY || '',
     baseUrl: (process.env.SUMOPOD_BASE_URL || 'https://ai.sumopod.com').replace(/\/+$/, ''),
     style: (process.env.SUMOPOD_API_STYLE || 'anthropic').toLowerCase(),
-    model: process.env.CLAUDE_MODEL || 'claude-sonnet-5-5',
+    model: process.env.CLAUDE_MODEL || 'claude-sonnet-5',
   },
   mistral: {
     key: process.env.MISTRAL_API_KEY || '',

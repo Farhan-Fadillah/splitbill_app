@@ -20,6 +20,9 @@ Butuh Node.js 22 atau lebih baru (syarat `better-sqlite3` 13). `.npmrc` sudah me
 - **Ganti (rotate) key yang pernah ditempel di chat atau tempat publik.** Buat key baru di dashboard Sumopod dan Mistral, lalu hapus yang lama.
 - Pasang batas pengeluaran di dashboard kedua penyedia. Endpoint scan bersifat publik (tanpa login), rate limit bawaan 10 scan/menit/IP.
 
+### Format gateway dan nama model
+`SUMOPOD_API_STYLE` menentukan endpoint (`anthropic` = `/v1/messages`, `openai` = `/v1/chat/completions`). Jika gateway membalas 404/405, aplikasi otomatis mencoba format satunya, mengingat yang berhasil, dan menulis peringatan di log supaya kamu bisa mengatur variabelnya dengan benar. Nama model harus persis sama dengan yang tersedia di gateway-mu (di Sumopod: dashboard → *Models*; di aplikasi: `/qa` → **Lihat Daftar Model**). Bawaan: `claude-sonnet-5`. Nama seperti `claude-sonnet-5-5` bisa saja ada di API Anthropic tetapi tidak ada di gateway, dan hasilnya setiap scan gagal.
+
 ### Jika `check:keys` gagal
 | Gejala | Biasanya berarti |
 |---|---|

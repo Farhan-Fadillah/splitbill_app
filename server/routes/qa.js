@@ -4,7 +4,7 @@ import { cfg } from '../config.js';
 import { getStore } from '../storage/index.js';
 import { rateLimit } from '../lib/ratelimit.js';
 import { AppError, notFound } from '../lib/errors.js';
-import { pingClaude, pingMistral } from '../services/ocr/healthcheck.js';
+import { pingClaude, pingMistral, listModels } from '../services/ocr/healthcheck.js';
 
 // Endpoint diagnostik untuk halaman /qa.html. Nonaktif (404) kecuali QA_TOKEN diatur.
 // Tidak pernah mengembalikan nilai key; hanya "terisi / belum".
@@ -36,6 +36,7 @@ qaRouter.get('/qa/status', async (_req, res) => {
 
 qaRouter.post('/qa/ping', async (req, res) => {
   const target = req.body?.target;
-  if (target !== 'claude' && target !== 'mistral') throw new AppError(400, 'bad_target', 'target harus claude atau mistral');
-  res.json({ ok: true, target, result: await (target === 'claude' ? pingClaude() : pingMistral()) });
+  const fns = { claude: pingClaude, mistral: pingMistral, models: listModels };
+  if (!fns[target]) throw new AppError(400, 'bad_target', 'target harus claude, mistral, atau models');
+  res.json({ ok: true, target, result: await fns[target]() });
 });

@@ -36,6 +36,10 @@ async function once(url, init, timeoutMs, outerSignal) {
   }
 }
 
+export async function getJson(url, headers, { timeoutMs = 15000, signal } = {}) {
+  return once(url, { method: 'GET', headers }, timeoutMs, signal);
+}
+
 export async function postJson(url, headers, body, { timeoutMs = 30000, signal, retry = true } = {}) {
   const init = { method: 'POST', headers: { 'content-type': 'application/json', ...headers }, body: JSON.stringify(body) };
   try {
